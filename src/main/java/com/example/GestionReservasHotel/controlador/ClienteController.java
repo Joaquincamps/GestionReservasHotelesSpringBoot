@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/clientes")
@@ -29,5 +30,17 @@ public class ClienteController {
     @GetMapping("/todos")
     public List<Cliente> listarCliente() {
         return servicioCliente.listarClientes();
+    }
+
+    @GetMapping("/todos/{id}")
+    public ResponseEntity<Cliente> buscarPorId(@PathVariable Long id) {
+        Optional<Cliente> clientePorId = servicioCliente.buscarPorId(id);
+        return ResponseEntity.ok(clientePorId.get());
+    }
+
+    @DeleteMapping("/todos/{id}")
+    public ResponseEntity<String> eliminarPorId(@PathVariable Long id) {
+        servicioCliente.borrarCliente(id);
+        return ResponseEntity.ok("Cliente eliminado");
     }
 }
