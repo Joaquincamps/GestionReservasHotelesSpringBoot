@@ -1,8 +1,13 @@
 package com.example.GestionReservasHotel.servicio;
 
+import com.example.GestionReservasHotel.dto.habitacion.DtoFiltrarPorEstado;
 import com.example.GestionReservasHotel.modelo.Habitacion;
+import com.example.GestionReservasHotel.modelo.enums.Estado;
 import com.example.GestionReservasHotel.repositorio.HabitacionRepositorio;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ServicioHabitacion {
@@ -17,5 +22,24 @@ public class ServicioHabitacion {
         return habitacionRepositorio.save(habitacion);
     }
 
-    
+    public void cambiarEstadoHabitacion(Long id, Estado nuevoEstado) {
+
+        Habitacion habitacionBuscar = habitacionRepositorio.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Habitación no encontrada"));
+        Estado estado = habitacionBuscar.getEstado();
+
+        if (estado.equals(nuevoEstado)) {
+            throw new IllegalStateException("No se puede aplicar el mismo estado.");
+        }
+        habitacionBuscar.setEstado(nuevoEstado);
+        habitacionRepositorio.save(habitacionBuscar);
+    }
+
+    public List<Habitacion> listarHabitaciones() {
+        return habitacionRepositorio.findAll();
+    }
+
+    public List<DtoFiltrarPorEstado> listarHabitacionesPorEstado() {
+        return habitacionRepositorio.listarPorEstado();
+    }
 }

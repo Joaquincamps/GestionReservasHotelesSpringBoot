@@ -14,12 +14,12 @@ public class Habitacion {
     @Column(unique = true)
     private int numero;
 
-    @EnumeratedValue
+    @Enumerated(EnumType.STRING)
     private Tipo tipo;
 
     private int precio;
 
-    @EnumeratedValue
+    @Enumerated(EnumType.STRING)
     private Estado estado;
 
     public Habitacion() {
