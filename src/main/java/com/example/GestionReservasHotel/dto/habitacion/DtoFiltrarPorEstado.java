@@ -1,6 +1,6 @@
 package com.example.GestionReservasHotel.dto.habitacion;
 
-import com.example.GestionReservasHotel.modelo.enums.Estado;
+import com.example.GestionReservasHotel.modelo.enums.habitacion.Estado;
 
 public class DtoFiltrarPorEstado {
 

@@ -1,8 +1,11 @@
 package com.example.GestionReservasHotel.modelo;
 
-import com.example.GestionReservasHotel.modelo.enums.Estado;
-import com.example.GestionReservasHotel.modelo.enums.Tipo;
+import com.example.GestionReservasHotel.modelo.enums.habitacion.Estado;
+import com.example.GestionReservasHotel.modelo.enums.habitacion.Tipo;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Habitacion {
@@ -22,6 +25,20 @@ public class Habitacion {
     @Enumerated(EnumType.STRING)
     private Estado estado;
 
+    @OneToMany(mappedBy = "habitacion")
+    private List<Reserva> reservas;
+
+    //metodos helpers
+    public void agregarReserva(Reserva reserva) {
+        reservas.add(reserva);
+        reserva.setHabitacion(this);
+    }
+
+    public void eliminarReserva(Reserva reserva) {
+        reservas.remove(reserva);
+        reserva.setHabitacion(null);
+    }
+
     public Habitacion() {
     }
 
@@ -30,6 +47,7 @@ public class Habitacion {
         this.tipo = tipo;
         this.precio = precio;
         this.estado = estado;
+        this.reservas = new ArrayList<>();
     }
 
     public Long getId() {
@@ -70,5 +88,13 @@ public class Habitacion {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
     }
 }

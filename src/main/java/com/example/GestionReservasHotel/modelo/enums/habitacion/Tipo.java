@@ -1,4 +1,4 @@
-package com.example.GestionReservasHotel.modelo.enums;
+package com.example.GestionReservasHotel.modelo.enums.habitacion;
 
 public enum Tipo {
     INDIVIDUAL,

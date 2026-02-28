@@ -1,6 +1,6 @@
 package com.example.GestionReservasHotel.dto.habitacion;
 
-import com.example.GestionReservasHotel.modelo.enums.Estado;
+import com.example.GestionReservasHotel.modelo.enums.habitacion.Estado;
 import org.antlr.v4.runtime.misc.NotNull;
 
 public class DtoEstadoHabitacion {

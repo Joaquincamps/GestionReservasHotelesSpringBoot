@@ -1,17 +1,17 @@
 package com.example.GestionReservasHotel.dto.habitacion;
 
-import com.example.GestionReservasHotel.modelo.enums.Tipo;
+import com.example.GestionReservasHotel.modelo.enums.habitacion.Tipo;
 
-public class DtoFiltrarPorFiltro {
+public class DtoFiltrarPorTipo {
 
     private Long id;
 
     private Tipo tipo;
 
-    public DtoFiltrarPorFiltro() {
+    public DtoFiltrarPorTipo() {
     }
 
-    public DtoFiltrarPorFiltro(Long id, Tipo tipo) {
+    public DtoFiltrarPorTipo(Long id, Tipo tipo) {
         this.id = id;
         this.tipo = tipo;
     }

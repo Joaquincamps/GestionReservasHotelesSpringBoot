@@ -1,8 +1,11 @@
 package com.example.GestionReservasHotel.controlador;
 
 import com.example.GestionReservasHotel.dto.habitacion.DtoEstadoHabitacion;
+import com.example.GestionReservasHotel.dto.habitacion.DtoFiltrarPorEstado;
+import com.example.GestionReservasHotel.dto.habitacion.DtoFiltrarPorTipo;
 import com.example.GestionReservasHotel.modelo.Habitacion;
-import com.example.GestionReservasHotel.modelo.enums.Estado;
+import com.example.GestionReservasHotel.modelo.enums.habitacion.Estado;
+import com.example.GestionReservasHotel.modelo.enums.habitacion.Tipo;
 import com.example.GestionReservasHotel.servicio.ServicioHabitacion;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +41,23 @@ public class HabitacionController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/estado/resumen/{estado}")
+    public List<DtoFiltrarPorEstado> listarPorEstado(@PathVariable Estado estado) {
+        return servicioHabitacion.listarHabitacionesPorEstado(estado);
+    }
+
     @GetMapping("/estado/{estado}")
-    public ResponseEntity<?> listarPorEstado(@RequestParam Estado estado) {
-        servicioHabitacion.listarHabitacionesPorEstado();
-        return ResponseEntity.ok().build();
+    public List<Habitacion> mostrarTodoHabitacionesEstado(@PathVariable Estado estado) {
+        return servicioHabitacion.listarTodoDeHabitacionesPorEstado(estado);
+    }
+
+    @GetMapping("/tipo/{tipo}")
+    public List<Habitacion> listarPorTipo(@PathVariable Tipo tipo) {
+        return servicioHabitacion.listarHabitacionesPorTipo(tipo);
+    }
+
+    @GetMapping("/tipo/resumen/{tipo}")
+    public List<DtoFiltrarPorTipo> listarPorTipoResumen(@PathVariable Tipo tipo) {
+        return servicioHabitacion.listarHabitacionResumenPorTipo(tipo);
     }
 }

@@ -2,6 +2,9 @@ package com.example.GestionReservasHotel.modelo;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Cliente {
 
@@ -9,12 +12,26 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nombre,dni;
+    private String nombre, dni;
 
     @Column(unique = true)
     private String email;
 
     private int telefono;
+
+    @OneToMany(mappedBy = "cliente", orphanRemoval = true)
+    private List<Reserva> reservas;
+
+    //metodos helpers
+    public void agregarReseva(Reserva reserva) {
+        reservas.add(reserva);
+        reserva.setCliente(this);
+    }
+
+    public void eliminarReserva(Reserva reserva) {
+        reservas.remove(reserva);
+        reserva.setCliente(null);
+    }
 
     public Cliente() {
     }
@@ -24,6 +41,7 @@ public class Cliente {
         this.dni = dni;
         this.email = email;
         this.telefono = telefono;
+        this.reservas = new ArrayList<>();
     }
 
     public Long getId() {
@@ -64,6 +82,14 @@ public class Cliente {
 
     public void setTelefono(int telefono) {
         this.telefono = telefono;
+    }
+
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
     }
 
     @Override
