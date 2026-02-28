@@ -1,11 +1,14 @@
 package com.example.GestionReservasHotel.controlador;
 
+import com.example.GestionReservasHotel.dto.reserva.DtoFinalizarReserva;
 import com.example.GestionReservasHotel.dto.reserva.DtoReserva;
 import com.example.GestionReservasHotel.modelo.Reserva;
 import com.example.GestionReservasHotel.servicio.ServicioReserva;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/reservas")
@@ -27,5 +30,18 @@ public class ReservaController {
     public ResponseEntity<?> eliminarReserva(@PathVariable Long id) {
         servicioReserva.elimnarReservaPorId(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/finalizar/{id}")
+    public ResponseEntity<?> finalizarReserva(@PathVariable Long id, @RequestBody DtoFinalizarReserva
+            dtoFinalizarReserva) {
+
+        servicioReserva.finalizarReserva(id, dtoFinalizarReserva.getEstadoReservas());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/listar")
+    public List<Reserva> listarReservas() {
+        return servicioReserva.listarREservas();
     }
 }

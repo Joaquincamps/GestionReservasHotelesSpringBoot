@@ -11,6 +11,7 @@ import com.example.GestionReservasHotel.repositorio.ReservaRepositorio;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -60,5 +61,17 @@ public class ServicioReserva {
                 () -> new EntityNotFoundException("No se encontró la reserva")
         );
         reservaRepositorio.deleteById(reservaPorId.getId());
+    }
+
+    public void finalizarReserva(Long id, EstadoReservas estadoNuevaReserva) {
+        Reserva reservaBuscar = reservaRepositorio.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Reserva no encontrada.")
+        );
+        reservaBuscar.setEstado(estadoNuevaReserva);
+        reservaRepositorio.save(reservaBuscar);
+    }
+
+    public List<Reserva> listarREservas() {
+        return reservaRepositorio.findAll();
     }
 }
