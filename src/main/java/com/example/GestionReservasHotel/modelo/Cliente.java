@@ -19,7 +19,7 @@ public class Cliente {
 
     private int telefono;
 
-    @OneToMany(mappedBy = "cliente", orphanRemoval = true)
+    @OneToMany(mappedBy = "cliente")
     private List<Reserva> reservas;
 
     //metodos helpers

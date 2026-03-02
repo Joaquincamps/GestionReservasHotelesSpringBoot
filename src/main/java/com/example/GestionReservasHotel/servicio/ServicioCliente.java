@@ -1,7 +1,11 @@
 package com.example.GestionReservasHotel.servicio;
 
 import com.example.GestionReservasHotel.modelo.Cliente;
+import com.example.GestionReservasHotel.modelo.Reserva;
+import com.example.GestionReservasHotel.modelo.enums.gestionReservas.EstadoReservas;
 import com.example.GestionReservasHotel.repositorio.ClienteRepository;
+import com.example.GestionReservasHotel.repositorio.ReservaRepositorio;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +16,11 @@ public class ServicioCliente {
 
     private final ClienteRepository clienteRepository;
 
-    public ServicioCliente(ClienteRepository clienteRepository) {
+    private final ReservaRepositorio reservaRepositorio;
+
+    public ServicioCliente(ClienteRepository clienteRepository, ReservaRepositorio reservaRepositorio) {
         this.clienteRepository = clienteRepository;
+        this.reservaRepositorio = reservaRepositorio;
     }
 
     public Cliente crearCLiente(Cliente cliente) {
@@ -40,6 +47,25 @@ public class ServicioCliente {
     }
 
     public void borrarCliente(Long id) {
-        clienteRepository.deleteById(id);
+
+        Cliente buscarCliente = clienteRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Cliente no encontrado.")
+        );
+
+        boolean encontrado = false;
+
+        List<Reserva> listaReservas = reservaRepositorio.findAll();
+        for (Reserva reserva : listaReservas) {
+            if(reserva.getCliente().equals(buscarCliente)){
+                if(reserva.getEstado().equals(EstadoReservas.ACTIVA)){
+                    encontrado = true;
+                }
+            }
+        }
+        if (encontrado) {
+            throw new IllegalStateException("No se puede eliminar un cliente con una reserva activa");
+        } else {
+            clienteRepository.deleteById(id);
+        }
     }
 }
